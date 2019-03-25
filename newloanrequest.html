@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Jirani</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="src/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="src/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet"
+          type="text/css">
+
+    <!-- Plugin CSS -->
+    <link href="src/vendor/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="src/scss/css/freelancer.min.css" rel="stylesheet">
+
+
+    <style>
+        .spinner {
+            margin: 100px auto;
+            width: 50px;
+            height: 40px;
+            text-align: center;
+            font-size: 10px;
+        }
+
+        .spinner > div {
+            background-color: #333;
+            height: 100%;
+            width: 6px;
+            display: inline-block;
+
+            -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+            animation: sk-stretchdelay 1.2s infinite ease-in-out;
+        }
+
+        .spinner .rect2 {
+            -webkit-animation-delay: -1.1s;
+            animation-delay: -1.1s;
+        }
+
+        .spinner .rect3 {
+            -webkit-animation-delay: -1.0s;
+            animation-delay: -1.0s;
+        }
+
+        .spinner .rect4 {
+            -webkit-animation-delay: -0.9s;
+            animation-delay: -0.9s;
+        }
+
+        .spinner .rect5 {
+            -webkit-animation-delay: -0.8s;
+            animation-delay: -0.8s;
+        }
+
+        @-webkit-keyframes sk-stretchdelay {
+            0%, 40%, 100% {
+                -webkit-transform: scaleY(0.4)
+            }
+            20% {
+                -webkit-transform: scaleY(1.0)
+            }
+        }
+
+        @keyframes sk-stretchdelay {
+            0%, 40%, 100% {
+                transform: scaleY(0.4);
+                -webkit-transform: scaleY(0.4);
+            }
+            20% {
+                transform: scaleY(1.0);
+                -webkit-transform: scaleY(1.0);
+            }
+        }
+
+        #spinner {
+            visibility: hidden;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+        }
+    </style>
+
+
+</head>
+<body id="page-top">
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">Jirani</a>
+        <button class="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button"
+                data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item mx-0 mx-lg-1">
+                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="newloanrequest.html">Request
+                        loan</a>
+                </li>
+                <li class="nav-item mx-0 mx-lg-1">
+                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                       href="index.html">About</a>
+                </li>
+                <li class="nav-item mx-0 mx-lg-1">
+                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                       href="personaldashboard.html">Dashboard</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<!-- Header -->
+<header class="masthead bg-primary text-white text-center">
+    <div class="container">
+        <h1 class="text-uppercase mb-0">Request a loan!</h1>
+        <hr class="star-light">
+        <h2 class="font-weight-light mb-0">Fill out the form below</h2>
+    </div>
+</header>
+
+
+<div class="container" style="padding:2%; position: relative;">
+    <form action="{{ url_for('requestloan') }}" method="post">
+        <div>
+            <label for="reason">Briefly tell us how you plan to use the loan</label>
+            <textarea class="form-control" id="reason" rows="3"></textarea>
+        </div>
+        <div>
+            <label for="repaymentplan">Briefly tell us how you plan to repay the loan</label>
+            <textarea class="form-control" id="repaymentplan" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="amountrequested">How much will you require? (in WEI)</label>
+            <input class="form-control" type="number" id="amountrequested">
+        </div>
+
+        <div class="form-group">
+            <label for="phonenumber">Phone number (for notification purposes)</label>
+            <input class="form-control" type="tel" id="phonenumber">
+
+        </div>
+
+        <small class="form-text text-muted">There will be a convenience fee of 3%</small>
+
+    </form>
+
+    <button id="loansubmit" type="button" class="btn btn-primary">Submit</button>
+
+    <button style="visibility: hidden;" id="personaldashbutton"
+            onclick='window.location.href="personaldashboard.html"'>Go to dashboard
+    </button>
+
+
+</div>
+
+
+<div class="spinner" id="spinner">
+    <div class="rect1"></div>
+    <div class="rect2"></div>
+    <div class="rect3"></div>
+    <div class="rect4"></div>
+    <div class="rect5"></div>
+
+</div>
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="src/vendor/jquery/jquery.min.js"></script>
+<script src="src/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="src/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="src/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+
+<script src='src/js/web3.min.js'></script>
+
+<script src="https://cdn.jsdelivr.net/npm/truffle-contract@4.0.8/dist/truffle-contract.min.js"></script>
+
+<script src="src/js/requestloan.js"></script>
+
+</body>
+</html>
