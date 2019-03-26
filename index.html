@@ -15,250 +15,168 @@
 
     <!-- Custom fonts for this template -->
     <link href="src/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-          rel="stylesheet">
+    <link href="src/vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+          type="text/css">
 
     <!-- Custom styles for this template -->
-    <link href="src/css/grayscale.min.css" rel="stylesheet">
+    <link href="src/css/landing-page.min.css" rel="stylesheet">
 
 </head>
 
-<body id="page-top">
+<body>
 
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+<nav class="navbar navbar-light bg-light static-top">
     <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">Jirani</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                aria-label="Toggle navigation">
-            Menu
-            <i class="fas fa-bars"></i>
+        <a class="navbar-brand" href="index.html">Jirani</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="index.html">About</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">About<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="newloanrequest.html">Request Loan</a>
+                    <a class="nav-link" href="#">View Loans</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger" href="personaldashboard.html">Dashboard</a>
+                    <a class="nav-link" href="newloanrequest.html">Request Loan</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="personaldashboard.html">Personal Dashboard</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 
-<!-- Header -->
-<header class="masthead">
-    <div class="container d-flex h-100 align-items-center">
-        <div class="mx-auto text-center">
-            <h1 class="mx-auto my-0 text-uppercase">Jirani</h1>
-            <h2 class="text-white-50 mx-auto mt-2 mb-5">A peer-to-peer microlending Blockchain platform</h2>
-            <a href="#about" class="btn btn-primary js-scroll-trigger">Get Started</a>
-        </div>
-    </div>
-</header>
 
-<!-- About Section -->
-<section id="about" class="about-section text-center">
+<!-- Masthead -->
+<header class="masthead text-white text-center">
+    <div class="overlay"></div>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <h2 class="text-white mb-4">Why Blockchain?</h2>
-                <p class="text-white-50">Blockchain increases transparency and significantly reduces interest rates. It
+            <div class="col-xl-9 mx-auto">
+                <h1 class="mb-5">Jirani</h1>
+            </div>
+            <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+                <h3>A peer-to-peer microlending Blockchain platform</h3>
+                <p>Blockchain increases transparency and significantly reduces interest rates. It
                     does so because of its decentralized nature, meaning that it can assist several microfinancing
                     bodies without the need for mediators or central authorities. Furthermore, smart contracts make
                     repaying these loans easier by creating a bond based on the terms and conditions specified for
                     repayment.</p>
             </div>
         </div>
-        <img src="src/img/ipad.png" class="img-fluid" alt="">
     </div>
-</section>
+</header>
 
-<!-- Projects Section -->
-<section id="projects" class="projects-section bg-light">
-    <div class="container">
-
-        <!-- Featured Project Row -->
-        <div class="row align-items-center no-gutters mb-4 mb-lg-5">
-            <div class="col-xl-8 col-lg-7">
-                <img class="img-fluid mb-3 mb-lg-0" src="src/img/bg-masthead.jpg" alt="">
-            </div>
-            <div class="col-xl-4 col-lg-5">
-                <div class="featured-text text-center text-lg-left">
-
-                    <h4>For who?</h4>
-
-                    <p class="mb-0 text-black-50">Microlending provides an amazing opportunity to apply blockchain
-                        technology.
-                        Individual lenders can provide small-scale loans to borrowers who cannot access traditional
-                        financial institutions.
-                    </p>
-
-                </div>
-            </div>
-        </div>
-
-
-        <!-- Project One Row -->
-        <div class="row justify-content-center no-gutters mb-5 mb-lg-0">
-            <div class="col-lg-6">
-                <img class="img-fluid" src="src/img/demo-image-01.jpg" alt="">
-            </div>
-            <div class="col-lg-6">
-                <div class="bg-black text-center h-100 project">
-                    <div class="d-flex h-100">
-                        <div class="project-text w-100 my-auto text-center text-lg-left">
-                            <h5 class="text-white">Goal: Create widely accessible philanthropic microlending system</h5>
-
-                            <ol>
-                                <li class="mb-0 text-white-50">Distributed - All transactions should be computed by
-                                    consensus in a P2P network to avoid centralizing trust
-                                </li>
-                                <li class="mb-0 text-white-50">Verified - The system should allow users to require and
-                                    provide certification regarding the completion of philanthropic.
-                                </li>
-                                <li class="mb-0 text-white-50">Transparent</li>
-                            </ol>
-
-                            <hr class="d-none d-lg-block mb-0 ml-0">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Project Two Row -->
-        <div class="row justify-content-center no-gutters">
-            <div class="col-lg-6">
-                <img class="img-fluid" src="src/img/demo-image-02.jpg" alt="">
-            </div>
-            <div class="col-lg-6 order-lg-first">
-                <div class="bg-black text-center h-100 project">
-                    <div class="d-flex h-100">
-                        <div class="project-text w-100 my-auto text-center text-lg-right">
-
-                            <h4 class="text-white">Benefits</h4>
-                            <ul>
-                                <li class="mb-0 text-white-50">An unforgeable credit rating - the user will not be able
-                                    to erase his credit history
-                                </li>
-                                <li class="mb-0 text-white-50">A certification system - other users can testify to say
-                                    if the goal was achieved or not
-                                </li>
-                                <li class="mb-0 text-white-50">(Fraud = disincentivizes this behavior)</li>
-                            </ul>
-
-
-                            <hr class="d-none d-lg-block mb-0 mr-0">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-<!-- Signup Section -->
-<section id="signup" class="signup-section">
+<!-- Icons Grid -->
+<section class="features-icons bg-light text-center">
     <div class="container">
         <div class="row">
-            <div class="col-md-10 col-lg-8 mx-auto text-center">
-
-                <i class="far fa-paper-plane fa-2x mb-2 text-white"></i>
-                <h2 class="text-white mb-5">Subscribe to receive updates!</h2>
-
-                <form class="form-inline d-flex">
-                    <input type="email" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="inputEmail"
-                           placeholder="Enter email address...">
-                    <button type="submit" class="btn btn-primary mx-auto">Subscribe</button>
-                </form>
-
+            <div class="col-lg-4">
+                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex">
+                        <i class="icon-screen-desktop m-auto text-primary"></i>
+                    </div>
+                    <h3>Distributed</h3>
+                    <p class="lead mb-0"></p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex">
+                        <i class="icon-layers m-auto text-primary"></i>
+                    </div>
+                    <h3>Verified</h3>
+                    <p class="lead mb-0"></p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex">
+                        <i class="icon-check m-auto text-primary"></i>
+                    </div>
+                    <h3>Transparent</h3>
+                    <p class="lead mb-0"></p>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Contact Section -->
-<section class="contact-section bg-black">
-    <div class="container">
 
-        <div class="row">
+<!-- Image Showcases -->
+<section class="showcase">
+    <div class="container-fluid p-0">
+        <div class="row no-gutters">
 
-            <div class="col-md-4 mb-3 mb-md-0">
-                <div class="card py-4 h-100">
-                    <div class="card-body text-center">
-                        <i class="fas fa-map-marked-alt text-primary mb-2"></i>
-                        <h4 class="text-uppercase m-0">Address</h4>
-                        <hr class="my-4">
-                        <div class="small text-black-50">Toronto, ON</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4 mb-3 mb-md-0">
-                <div class="card py-4 h-100">
-                    <div class="card-body text-center">
-                        <i class="fas fa-envelope text-primary mb-2"></i>
-                        <h4 class="text-uppercase m-0">Email</h4>
-                        <hr class="my-4">
-                        <div class="small text-black-50">
-                            <a href="#">kevin.faust@mail.utoronto.com</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4 mb-3 mb-md-0">
-                <div class="card py-4 h-100">
-                    <div class="card-body text-center">
-                        <i class="fas fa-mobile-alt text-primary mb-2"></i>
-                        <h4 class="text-uppercase m-0">Phone</h4>
-                        <hr class="my-4">
-                        <div class="small text-black-50">+1 (437) 351-****</div>
-                    </div>
-                </div>
+            <div class="col-lg-6 order-lg-2 text-white showcase-img"
+                 style="background-image: url('src/img/bg-showcase-1.jpg');"></div>
+            <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+                <h2>Unforgeable credit rating</h2>
+                <p class="lead mb-0">The user will not be able to erase his credit history</p>
             </div>
         </div>
-
-        <div class="social d-flex justify-content-center">
-            <a href="#" class="mx-2">
-                <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="mx-2">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="mx-2">
-                <i class="fab fa-github"></i>
-            </a>
+        <div class="row no-gutters">
+            <div class="col-lg-6 text-white showcase-img"
+                 style="background-image: url('src/img/bg-showcase-2.jpg');"></div>
+            <div class="col-lg-6 my-auto showcase-text">
+                <h2>A certification system</h2>
+                <p class="lead mb-0">Other users can testify to say if the goal was achieved or not (Fraud =
+                    disincentivizes this behavior)</p>
+            </div>
         </div>
-
+        <div class="row no-gutters">
+            <div class="col-lg-6 order-lg-2 text-white showcase-img"
+                 style="background-image: url('src/img/bg-showcase-3.jpg');"></div>
+            <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+                <h2>Distributed</h2>
+                <p class="lead mb-0">All transactions should be computed by consensus in a P2P network to avoid
+                    centralizing trust</p>
+            </div>
+        </div>
     </div>
 </section>
+
 
 <!-- Footer -->
-<footer class="bg-black small text-center text-white-50">
+<footer class="footer bg-light">
     <div class="container">
-        Copyright &copy; Jirani 2019
+        <div class="row">
+            <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+                <p class="text-muted small mb-4 mb-lg-0">&copy; Jirani 2019. All Rights Reserved.</p>
+            </div>
+            <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item mr-3">
+                        <a href="#">
+                            <i class="fab fa-facebook fa-2x fa-fw"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item mr-3">
+                        <a href="#">
+                            <i class="fab fa-twitter-square fa-2x fa-fw"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <i class="fab fa-instagram fa-2x fa-fw"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </footer>
 
 <!-- Bootstrap core JavaScript -->
 <script src="src/vendor/jquery/jquery.min.js"></script>
 <script src="src/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Plugin JavaScript -->
-<script src="src/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for this template -->
-<script src="src/js/grayscale.min.js"></script>
 
 </body>
 
