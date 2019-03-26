@@ -8,27 +8,28 @@
 
     <title>Jirani</title>
 
+
     <!-- Bootstrap core CSS -->
     <link href="src/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
-    <link href="src/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet"
-          type="text/css">
-
-    <!-- Plugin CSS -->
-    <link href="src/vendor/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css">
+    <link href="src/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="src/scss/css/freelancer.min.css" rel="stylesheet">
-
+    <link href="src/css/grayscale.min.css" rel="stylesheet">
 
     <style>
+        * {
+            font-family: 'Raleway', sans-serif;
+        }
+
         .card {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
             max-width: 600px;
-            margin: auto;
+            margin: 2%;
             text-align: center;
         }
 
@@ -37,37 +38,31 @@
             margin: 0 auto;
         }
 
-        #userimage {
-            margin: 0 auto;
-        }
     </style>
 
 </head>
 <body id="page-top">
 
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
         <a class="navbar-brand js-scroll-trigger" href="#page-top">Jirani</a>
-        <button class="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button"
-                data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
-                aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item mx-0 mx-lg-1">
-                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="newloanrequest.html">Request
-                        loan</a>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="index.html">About</a>
                 </li>
-                <li class="nav-item mx-0 mx-lg-1">
-                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                       href="index.html">About</a>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="newloanrequest.html">Request Loan</a>
                 </li>
-                <li class="nav-item mx-0 mx-lg-1">
-                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                       href="personaldashboard.html">Dashboard</a>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="personaldashboard.html">Dashboard</a>
                 </li>
             </ul>
         </div>
@@ -76,41 +71,30 @@
 
 
 <!-- Header -->
-<header class="masthead bg-primary text-white text-center">
-    <div class="container">
-        <h1 class="text-uppercase mb-0">Personal Dashboard</h1>
-        <hr class="star-light">
-        <h2 class="font-weight-light mb-0">Your loans in progress</h2>
+<header class="masthead">
+    <div class="container d-flex h-100 align-items-center">
+        <div class="mx-auto text-center">
+            <h1 class="mx-auto my-0 text-uppercase">Personal Dashboard</h1>
+            <h2 class="text-white-50 mx-auto mt-2">Account</h2>
+            <h2 id="account" class="text-white-50 mx-auto mt-2 mb-5"></h2>
+            <a href="#dashboard-form-section" class="btn btn-primary js-scroll-trigger">Scroll down</a>
+        </div>
     </div>
 </header>
 
+<section id="dashboard-form-section">
+    <div class="container" id="loanDisplay">
 
-<div class="card" style="margin: 2% auto">
-    <img id="userimage" src="src/images/ethlogo.png" style="width:250px">
-
-    <h1>Account</h1>
-    <p id="account"></p>
-
-    <h4>Reason</h4>
-    <p id="reason"></p>
-
-    <h4>Repayment plan</h4>
-    <p id="repaymentplan"></p>
-
-    <h4>Progress</h4>
-    <div class="progress">
-        <div id="progressbar" class="progress-bar bg-success" role="progressbar" style="width: 25%;"
-             aria-valuenow="25"
-             aria-valuemin="0" aria-valuemax="100">
-        </div>
     </div>
+</section>
 
-    <p id="amountaccumulated"></p>
 
-    <button id="repay" type="button" class="btn btn-primary" data-contract-num=0>Repay</button>
-
-</div>
-
+<!-- Footer -->
+<footer class="bg-black small text-center text-white-50">
+    <div class="container">
+        Copyright &copy; Jirani 2019
+    </div>
+</footer>
 
 <!-- Bootstrap core JavaScript -->
 <script src="src/vendor/jquery/jquery.min.js"></script>
@@ -118,7 +102,9 @@
 
 <!-- Plugin JavaScript -->
 <script src="src/vendor/jquery-easing/jquery.easing.min.js"></script>
-<script src="src/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+
+<!-- Custom scripts for this template -->
+<script src="src/js/grayscale.min.js"></script>
 
 <script src='src/js/web3.min.js'></script>
 

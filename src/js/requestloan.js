@@ -84,7 +84,7 @@ App = {
             console.log(err);
         }
 
-        // $('#personaldashbutton').click();
+        window.location.href = "personaldashboard.html"
     }
 
 

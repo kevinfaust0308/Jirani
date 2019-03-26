@@ -41,14 +41,20 @@ App = {
         const loanRequestPlatformInstance = await App.contracts.loanRequestPlatform.deployed();
 
         const acct = (await web3.eth.getAccounts())[0];
-        console.log(acct);
+        $("#account").text(acct);
 
         const yourLoanRequests = await loanRequestPlatformInstance.getYourLoanRequestContracts();
-
         console.log("You have " + yourLoanRequests.length + " loan requests");
-        console.log(yourLoanRequests);
 
-        for (let i = 0; i  < yourLoanRequests.length; i++) {
+        // number of rows and columns to display
+        const max_per_row = 2;
+        const fullrows = Math.floor(yourLoanRequests.length / max_per_row);
+        const excesscols = yourLoanRequests.length % max_per_row;
+
+        const loanDisplay = $("#loanDisplay");
+        let currRow = null;
+
+        for (let i = 0; i < yourLoanRequests.length; i++) {
             const lr = yourLoanRequests[i];
             const res = await loanRequestPlatformInstance.extractLoanRequestContractData(lr);
 
@@ -60,30 +66,69 @@ App = {
             const numLoaners = res[5].toNumber();
 
             // unpack and rename to the following new variable names
-            const {0: requestee, 3: reason, 4: repaymentPlan} = res;
+            // dont care about requestee since requestee is YOU
+            const {3: reason, 4: repaymentPlan} = res;
 
             console.log("Request %s/%s because of %s. Backed by %d", amountAcc, amountReq, reason, numLoaners);
 
             // update UI
+            // start of new row
+            if (i % max_per_row === 0) {
 
+                const temp = $('<div>', {
+                    id: "row-" + i,
+                    class: "card-group"
+                });
+                loanDisplay.append(temp);
+                currRow = temp;
+            }
+
+            // dynamic progress bar setup
+            const prog = parseFloat(amountAcc) / parseFloat(amountReq);
+
+
+            const newCard = `<div class="card">
+                <div class="card-body">
+                    <h4>Reason for loan</h4>
+                    <p class="reason">${reason}</p>
+                
+                    <h4>Repayment plan</h4>
+                    <p class="repaymentplan">${repaymentPlan}</p>
+                
+                    <h4>Progress</h4>
+                    <div class="progress">
+                        <div id="progressbar" class="progress-bar bg-success" role="progressbar" style="width: ${prog}%;"
+                             aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                             ${prog.toFixed(2) + '%'}
+                        </div>
+                    </div>
+                
+                    <small class="text-muted">${amountAcc} out of ${amountReq} WEI raised</small>
+                    
+                </div>
+                
+
+                <button id="repay-btn-${i}" type="button" class="btn btn-primary repay-btn" data-contract-num=${i} onClick="App.repay(${i})">Repay</button>
+  
+                
+            </div>`;
+            currRow.append(newCard);
+
+            // disable button if not fully paid back yet
+            if (amountAcc !== amountReq) {
+                $(`#repay-btn-${i}`).prop('disabled', true);
+            }
+
+            // completed a row
+            if (i % max_per_row === max_per_row - 1) {
+                loanDisplay.append("</div>");
+            }
 
         }
 
-
-
-        
-        // var req = result[0];
-        // var acc = result[1];
-        //
-        // var prog = parseFloat(acc) / parseFloat(req);
-        // $('#progressbar')
-        //     .html(prog.toFixed(2) + '%')
-        //     .css('width', prog + '%');
-        //
-        // $('#amountaccumulated').html(parseFloat(acc).toFixed(2) + " out of " + parseFloat(req).toFixed(2) + " ETH raised");
-        // $('#reason').html(result[2]);
-        // $('#repaymentplan').html(result[3]);
-
+        if (excesscols !== 0) {
+            loanDisplay.append("</div>");
+        }
 
 
         return App.bindEvents();
@@ -92,28 +137,31 @@ App = {
 
     bindEvents: () => {
         // on button click, grab which loan request was selected if there are multiple being displayed
-        $('#repay').click(e => {
-            App.repay($(this).attr("data-contract-num"));
-        })
+        // $('#repay').click(e => {
+        //     App.repay($(this).attr("data-contract-num"));
+        // })
+
     },
 
-    repay: async (contractNum)=> {
+    repay: async (contractNum) => {
 
-        let acct = (await web3.eth.getAccounts())[0];
+        const acct = (await web3.eth.getAccounts())[0];
         console.log(acct);
 
-        let loanRequestPlatformInstance = await App.contracts.loanRequestPlatform.deployed();
-        let yourLoanRequests = await loanRequestPlatformInstance.getYourLoanRequestContracts.call();
+        const loanRequestPlatformInstance = await App.contracts.loanRequestPlatform.deployed();
+        const yourLoanRequests = await loanRequestPlatformInstance.getYourLoanRequestContracts.call();
 
         // repay the desired loan
-        let tx = await loanRequestPlatformInstance.repayLoan(yourLoanRequests[contractNum], {from: acct});
-
-        console.log("loan has been paid off");
-
+        try {
+            const gas = await loanRequestPlatformInstance.repayLoan.estimateGas(yourLoanRequests[contractNum], {from: acct});
+            let tx = await loanRequestPlatformInstance.repayLoan(yourLoanRequests[contractNum], {from: acct, gas: gas});
+            console.log(tx);
+            console.log("loan has been paid off");
+        } catch (e) {
+            console.log(e);
+        }
 
     }
-
-
 
 };
 
