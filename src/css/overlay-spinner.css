@@ -1,4 +1,4 @@
-#overlay{
+#spinner-overlay{
     z-index: 99999999999999;
     position: fixed;
     top:0;

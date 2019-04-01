@@ -1,0 +1,36 @@
+* {
+    font-family: 'Raleway', sans-serif;
+}
+
+html, body {
+    height: 100%;
+}
+
+.progress {
+    border: 1px solid green;
+    width: 60%;
+    margin: 0 auto;
+}
+
+.full-screen-background {
+    height: calc(100% - 56px);
+    padding: 3%;
+    position: relative;
+    background: #343a40 url("../img/bg-masthead.jpg") no-repeat center center;
+    background-size: cover;
+}
+
+/*.full-screen-background .full-screen-background-filter {*/
+/*position: absolute;*/
+/*left:0;*/
+/*top:0;*/
+/*height: 100%;*/
+/*width: 100%;*/
+/*background-color: #212529;*/
+/*opacity: 0.3;*/
+/*}*/
+
+.full-screen-background {
+    text-align: center;
+}
+
