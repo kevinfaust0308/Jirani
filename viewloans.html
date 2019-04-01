@@ -12,19 +12,10 @@
     <!-- Bootstrap core CSS -->
     <link href="src/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom fonts for this template -->
-    <link href="src/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="src/vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
-          type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="src/css/landing-page.min.css" rel="stylesheet">
-
-    <link href="src/css/overlay-spinner.css" rel="stylesheet">
     <link href="src/css/common.css" rel="stylesheet">
-
-    <link href="src/css/personaldashboard.css" rel="stylesheet">
+    <link href="src/css/overlay-spinner.css" rel="stylesheet">
 
 
 </head>
@@ -62,11 +53,10 @@
 <div class="full-screen-background">
 
     <div class="container" id="allLoans">
-
-        <p>Your loan requests will not be shown</p>
+        <p class="text-white">Your loan requests will not be shown</p>
 
         <table class="table">
-            <thead class="thead-light">
+            <thead class="thead-dark">
             <tr>
                 <th scope="col">Reason</th>
                 <th scope="col">Repayment Plan</th>
@@ -78,11 +68,11 @@
             <tbody id="allLoansTable">
 
             <tr v-for="loan in allLoans">
-                <th scope="row">{{ loan.reason }}</th>
-                <td>{{ loan.repaymentPlan }}</td>
-                <td>{{ loan.amountReq }}</td>
-                <td>{{ loan.amountAcc }}</td>
-                <td>{{ loan.numLoaners }}</td>
+                <th class="text-light" scope="row">{{ loan.reason }}</th>
+                <td class="text-light">{{ loan.repaymentPlan }}</td>
+                <td class="text-light">{{ loan.amountReq }}</td>
+                <td class="text-light">{{ loan.amountAcc }}</td>
+                <td class="text-light">{{ loan.numLoaners }}</td>
                 <td>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#paymentModal"
                             v-on:click="updateModal(loan)">
@@ -168,7 +158,7 @@
 
 </div>
 
-<div id="overlay"></div>
+<div id="spinner-overlay"></div>
 
 <div class="spinner" id="spinner">
     <div class="rect1"></div>
@@ -178,36 +168,6 @@
     <div class="rect5"></div>
 </div>
 
-
-<!-- Footer -->
-<footer class="footer bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
-                <p class="text-muted small mb-4 mb-lg-0">&copy; Jirani 2019. All Rights Reserved.</p>
-            </div>
-            <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
-                <ul class="list-inline mb-0">
-                    <li class="list-inline-item mr-3">
-                        <a href="#">
-                            <i class="fab fa-facebook fa-2x fa-fw"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item mr-3">
-                        <a href="#">
-                            <i class="fab fa-twitter-square fa-2x fa-fw"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#">
-                            <i class="fab fa-instagram fa-2x fa-fw"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</footer>
 
 <!-- Bootstrap core JavaScript -->
 <script src="src/vendor/jquery/jquery.min.js"></script>

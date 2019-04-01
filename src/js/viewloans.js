@@ -133,7 +133,6 @@ App = {
         let payAmt = app.displayedLoan.willPay;
         console.log("Paying %s ETH to %s", payAmt, displayedLoanAddr);
 
-
         try {
 
             // get an estimate of the gas to use
@@ -144,7 +143,7 @@ App = {
             // perform transaction using the gas estimate
             const tx = await loanRequestPlatformInstance.sendPayment(displayedLoanAddr, {
                 from: acct,
-                gas: gas,
+                gas: parseInt(gas * 1.2), // safe gas estimate
                 value: web3.utils.toWei(payAmt)
             });
 
