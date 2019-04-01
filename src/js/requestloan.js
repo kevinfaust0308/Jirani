@@ -87,7 +87,7 @@ App = {
             // perform transaction using the gas estimate
             const tx = await loanRequestPlatformInstance.requestLoan(app.title, app.reason, app.repaymentplan, amountReqWei, app.phonenumber, {
                 from: acct,
-                gas: gas
+                gas: parseInt(gas * 1.2), // safe gas estimate
             });
 
             console.log(tx);

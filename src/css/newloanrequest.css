@@ -1,5 +1,12 @@
+#formApp {
+    margin: 2% auto;
+    max-width: 60%;
+}
+
 label {
     max-width: 30rem;
     font-size: 1.1rem;
     color: rgba(255, 255, 255, .8) !important;
 }
+
+
