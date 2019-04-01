@@ -1,3 +1,21 @@
+var app = new Vue({
+    el: '#formApp',
+    data: {
+        'title': '',
+        'reason': '',
+        'repaymentplan': '',
+        'amountrequested': null, // string number in eth. parsed to wei and then passed directly to our contract as itll take care of it
+        'phonenumber': '',
+    },
+    computed: {
+        formIsValid: function () {
+            let validAmt = this.amountrequested;
+            return this.title && this.reason && this.repaymentplan && validAmt && this.phonenumber;
+        }
+    }
+});
+
+
 App = {
 
     web3Provider: null,
@@ -43,7 +61,7 @@ App = {
 
     bindEvents: () => {
 
-        $('#loansubmit').click(e => {
+        $('#submit').click(e => {
             App.loanSubmit();
         })
     },
@@ -52,40 +70,39 @@ App = {
     loanSubmit: async () => {
 
         console.log("loan request pending");
-
-        $("#spinner").css('visibility', 'visible');
-        $("#loansubmit").text("Loading");
+        toggleFormSubmit(true);
 
         const acct = (await web3.eth.getAccounts())[0];
         console.log(acct);
 
         const loanRequestPlatformInstance = await App.contracts.loanRequestPlatform.deployed();
 
-        const reasontext = $('#reason').val();
-        const repaymentplantext = $('#repaymentplan').val();
-        const amountReq = $('#amountrequested').val(); // a huge string number in wei. pass directly to our contract itll take care of it
-        const phonenum = $('#phonenumber').val();
+        console.log("%s %s %s %s %s", app.title, app.reason, app.repaymentplan, app.amountrequested, app.phonenumber);
 
-        console.log("%s %s %s %s", reasontext, repaymentplantext, amountReq, phonenum);
-
+        let amountReqWei = web3.utils.toWei(app.amountrequested, 'ether');
 
         try {
             // get an estimate of the gas to use
-            const gas = await loanRequestPlatformInstance.requestLoan.estimateGas(reasontext, repaymentplantext, amountReq, phonenum, {from: acct});
+            const gas = await loanRequestPlatformInstance.requestLoan.estimateGas(app.title, app.reason, app.repaymentplan, amountReqWei, app.phonenumber, {from: acct});
             // perform transaction using the gas estimate
-            const tx = await loanRequestPlatformInstance.requestLoan(reasontext, repaymentplantext, amountReq, phonenum, {
+            const tx = await loanRequestPlatformInstance.requestLoan(app.title, app.reason, app.repaymentplan, amountReqWei, app.phonenumber, {
                 from: acct,
                 gas: gas
             });
 
             console.log(tx);
             console.log("loan request success");
+
+            window.location.href = "personaldashboard.html"
+
         } catch (err) {
             console.log(err);
+            // there was an error. put screen back to unloading-state
+            toggleFormSubmit(false);
         }
 
-        window.location.href = "personaldashboard.html"
-    }
+
+    },
 
 
 };
