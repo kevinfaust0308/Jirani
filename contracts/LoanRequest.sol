@@ -7,6 +7,7 @@ contract LoanRequest {
 
     address payable public owner;
     address payable public requestee;
+    string public title;
     string public reason;
     string public repaymentPlan;
 
@@ -24,9 +25,10 @@ contract LoanRequest {
     }
 
 
-    constructor(address payable _owner, address payable _requestee, string memory _reason, string memory _repaymentPlan, uint _amountRequested, uint _phoneNumber) public {
+    constructor(address payable _owner, address payable _requestee, string memory _title, string memory _reason, string memory _repaymentPlan, uint _amountRequested, uint _phoneNumber) public {
         owner = _owner;
         requestee = _requestee;
+        title = _title;
         reason = _reason;
         repaymentPlan = _repaymentPlan;
         amountRequested = _amountRequested;
