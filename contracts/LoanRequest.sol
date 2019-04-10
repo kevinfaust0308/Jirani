@@ -5,7 +5,6 @@ contract LoanRequest {
     enum State {FUNDING, PAYING_BACK, COMPLETE}
     State public currentState;
 
-    address payable public owner;
     address payable public requestee;
     string public title;
     string public reason;
@@ -14,16 +13,10 @@ contract LoanRequest {
     uint public amountAccumulated; // since the contract balance is always 0 (upon receiving we immediately payout)
     uint public amountRequested; // in wei
     uint public phoneNumber;
+
+    address payable private owner;
     address payable[] public loaners;
-    uint[] public loanerAmounts;
-
-    event LoanPaidOff(uint amountRequested, uint numLoaners);
-
-    modifier requesteeOnly() { // reusable condition checks
-        require(msg.sender == requestee);
-        _; // body of the function this modifier is tacked to
-    }
-
+    uint[] private loanerAmounts;
 
     constructor(address payable _owner, address payable _requestee, string memory _title, string memory _reason, string memory _repaymentPlan, uint _amountRequested, uint _phoneNumber) public {
         owner = _owner;
@@ -37,7 +30,10 @@ contract LoanRequest {
         currentState = State.FUNDING;
     }
 
-    function sendPayment() payable public {
+    function sendPayment(address payable sender) payable public {
+
+        require(sender != requestee); // why are you funding your own loan. no
+
         // still requiring money
         require(currentState == State.FUNDING);
         // amount provided is less than the remaining amount
@@ -51,7 +47,7 @@ contract LoanRequest {
         uint keptamount = msg.value - fee;
 
         // record this loaner and the amount they gave
-        loaners.push(msg.sender);
+        loaners.push(sender);
         loanerAmounts.push(msg.value);
 
         // transfer the funds over to the loan requestee
@@ -65,7 +61,10 @@ contract LoanRequest {
         }
     }
 
-    function repayLoan() payable public requesteeOnly {
+    function repayLoan(address sender) payable public {
+
+        require(sender == requestee); // person repaying should obviously be the person that requested the loan
+
         // requestee is ready to pay back the loaners
         require(currentState == State.PAYING_BACK);
         require(msg.value == amountRequested);
@@ -74,9 +73,6 @@ contract LoanRequest {
             loaners[i].transfer(loanerAmounts[i]);
         }
 
-        // notify front end
-        emit LoanPaidOff(amountRequested, loaners.length);
-
         // front end will make the sms
 
         currentState = State.COMPLETE;
@@ -84,6 +80,19 @@ contract LoanRequest {
 
     function numLoaners() view public returns(uint) {
         return loaners.length;
+    }
+
+    function getCurrentState() view public returns(string memory) {
+        if (currentState == State.FUNDING) {
+            return "Funding";
+            //return 0;
+        } else if (currentState == State.PAYING_BACK) {
+            return "Paying back";
+            //return 1;
+        } else if (currentState == State.COMPLETE) {
+            return "Complete";
+            //return 2;
+        }
     }
 
 }
