@@ -8,8 +8,6 @@ var app = new Vue({
     },
     methods: {
         updateModal: function (loan) {
-            // dynamic progress bar setup
-            loan.prog = parseFloat(loan.amountAcc) / parseFloat(loan.amountReq) * 100;
             this.displayedLoan = loan;
         },
     },
@@ -55,55 +53,36 @@ App = {
             App.contracts.loanRequestPlatform.setProvider(App.web3Provider);
             console.log("initialized loan request platform contract");
 
-            return App.initUI();
+            return App.initLoanRequestsData();
         });
+    },
+
+    initLoanRequestsData: async () => {
+
+        const loanRequestPlatformInstance = await App.contracts.loanRequestPlatform.deployed();
+
+        const numLoans = await loanRequestPlatformInstance.numContracts();
+        console.log("There are " + numLoans + " total loans");
+
+        // create a list of objects of the actual loan request data
+        let lrads = [];
+        for (let i = 0; i < numLoans; i++) {
+            // get ith contract's address and data
+            const lra = await loanRequestPlatformInstance.contracts(i);
+            const lrd = await loanRequestPlatformInstance.extractLoanRequestContractData(lra);
+            lrads.push([lra, lrd]);
+        }
+        // parse into nice format
+        const acct = (await web3.eth.getAccounts())[0];
+        app.allLoans = formatLoanRequestData(lrads, acct);
+
+        return App.initUI();
     },
 
 
     initUI: async () => {
 
-        console.log("App.initUI()");
-
-        const loanRequestPlatformInstance = await App.contracts.loanRequestPlatform.deployed();
-
         const acct = (await web3.eth.getAccounts())[0];
-
-        const numLoans = await loanRequestPlatformInstance.numContracts();
-        console.log("There are " + numLoans + " total loans");
-
-        for (let i = 0; i < numLoans; i++) {
-            // get ith contract's address
-            const addr = await loanRequestPlatformInstance.contracts(i);
-            // get the actual contents
-            const res = await loanRequestPlatformInstance.extractLoanRequestContractData(addr);
-            console.log(res);
-
-
-            // unpack and convert values to appropriate format
-            const amountReq = web3.utils.fromWei(res[1].toString()); // wei to eth. avoid huge number handling
-            const amountAcc = web3.utils.fromWei(res[2].toString());
-            const numLoaners = res[6].toNumber();
-
-            // unpack and rename to the following new variable names
-            const {0: requestee, 3: title, 4: reason, 5: repaymentPlan} = res;
-
-            // // we wont be displaying our own loans
-            // if (acct === requestee) {
-            //     continue;
-            // }
-
-
-            let loanobj = {
-                'addr': addr, // unique identifier for loaning
-                'title': title,
-                'reason': reason,
-                'repaymentPlan': repaymentPlan,
-                'amountReq': amountReq,
-                'amountAcc': amountAcc,
-                'numLoaners': numLoaners
-            };
-            app.allLoans.push(loanobj);
-        }
 
         return App.bindEvents();
     },

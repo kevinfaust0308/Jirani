@@ -53,7 +53,6 @@
 <div class="full-screen-background">
 
     <div class="container" id="allLoans">
-        <p class="text-white">Your loan requests will not be shown</p>
 
         <table class="table">
             <thead class="thead-dark">
@@ -74,10 +73,14 @@
                 <td class="text-light">{{ loan.amountAcc }}</td>
                 <td class="text-light">{{ loan.numLoaners }}</td>
                 <td>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#paymentModal"
-                            v-on:click="updateModal(loan)">
-                        Fund
+                    <!--disable button if this loan is yours and update the button text. if user un-disables it, dw we have checks in solidity too-->
+                    <button type="button" data-toggle="modal" data-target="#paymentModal" v-on:click="updateModal(loan)"
+                            :class="[loan.isYours ? 'btn-secondary' : 'btn-info', 'btn']"
+                            :disabled="loan.isYours">
+                        <template v-if="loan.isYours">Yours</template>
+                        <template v-else>Fund</template>
                     </button>
+
                 </td>
             </tr>
 
@@ -97,7 +100,7 @@
                         </button>
                     </div>
 
-                    <template v-if="displayedLoan.addr">
+                    <template v-if="displayedLoan.lra">
 
                         <div class="modal-body">
                             <div class="jumbotron">
@@ -180,6 +183,7 @@
 <script src="https://cdn.jsdelivr.net/npm/truffle-contract@4.0.8/dist/truffle-contract.min.js"></script>
 
 <script src="src/js/overlay-spinner.js"></script>
+<script src="src/js/loan-request-utils.js"></script>
 <script src="src/js/viewloans.js"></script>
 
 </body>
