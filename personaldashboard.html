@@ -8,52 +8,16 @@
 
     <title>Jirani</title>
 
-
     <!-- Bootstrap core CSS -->
     <link href="src/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom fonts for this template -->
-    <link href="src/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="src/vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
-          type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="src/css/landing-page.min.css" rel="stylesheet">
-
-    <style>
-        * {
-            font-family: 'Raleway', sans-serif;
-        }
-
-        .card {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            /*max-width: 600px;*/
-            margin: 2%;
-            text-align: center;
-        }
-
-        .progress {
-            width: 60%;
-            margin: 0 auto;
-        }
-
-        .full-screen-background {
-            padding: 3%;
-            position: relative;
-            background-color: #343a40;
-            background: url("src/img/bg-masthead.jpg") no-repeat center center;
-            background-size: cover;
-        }
-
-        .full-screen-background > div {
-            text-align: center;
-        }
-
-    </style>
+    <link href="src/css/common.css" rel="stylesheet">
+    <link href="src/css/personaldashboard.css" rel="stylesheet">
 
 </head>
-<body id="page-top">
+<body>
 
 
 <!-- Navigation -->
@@ -70,13 +34,14 @@
                     <a class="nav-link" href="index.html">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">View Loans</a>
+                    <a class="nav-link" href="viewloans.html">View Loans</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="newloanrequest.html">Request Loan</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="personaldashboard.html">Personal Dashboard<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="personaldashboard.html">Personal Dashboard<span
+                            class="sr-only">(current)</span></a>
                 </li>
             </ul>
         </div>
@@ -84,64 +49,76 @@
 </nav>
 
 
-
 <div class="full-screen-background">
 
     <div>
-        <h2 class="mx-auto">Account</h2>
+        <h2 class="mx-auto text-light">Account</h2>
         <br>
-        <p id="account" class="mx-auto mt-2"></p>
+        <p id="account" class="mx-auto mt-2 text-light"></p>
         <hr>
     </div>
 
     <div class="container" id="loanDisplay">
+
+        <!--        second parameter is optional index alias-->
+        <div v-for="(loans, i) in yourGroupedLoans" class="card-group">
+
+            <div v-for="(loan, j) in loans" class="card">
+                <div class="card-body">
+
+                    <h4>{{ loan.title }}<span class="badge badge-pill badge-dark">{{ loan.numLoaners}} supporters</span>
+                    </h4>
+                    <p class="reason">{{ loan.reason }}</p>
+
+                    <h5>Repayment plan</h5>
+                    <p class="repaymentplan">{{ loan.repaymentPlan }}</p>
+
+                    <h6>Progress</h6>
+                    <div class="progress">
+                        <div id="progressbar" class="progress-bar bg-success" role="progressbar"
+                             :style="{ width: loan.prog + '%' }"
+                             aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                            {{ loan.prog.toFixed(2) + '%' }}
+                        </div>
+                    </div>
+
+                    <small class="text-muted">{{ loan.amountAcc }} out of {{ loan.amountReq }} ETH raised</small>
+                </div>
+
+                <!--general note: for using vars in attributes, use v-bind (:). anything inside the quotes can use the vars; inside the second pair of quotes will be literals-->
+                <!--only when funding then make button greyish and only when repaying make it not disabled-->
+                <button type="button"
+                        :id="'repay-btn-' + (i+j)"
+                        :disabled="loan.currentState !== 'Paying back'"
+                        :class="[loan.currentState == 'Funding' ? 'btn-secondary' : 'btn-success', 'repay-btn', 'btn']"
+                        :data-contract-num="(i+j)">
+                    <template v-if="loan.currentState == 'Complete'">Paid off 👏</template>
+                    <template v-else>Repay ✍</template>
+                </button>
+
+            </div>
+
+        </div>
+
 
     </div>
 
 </div>
 
 
-
-
-
-<!-- Footer -->
-<footer class="footer bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
-                <p class="text-muted small mb-4 mb-lg-0">&copy; Jirani 2019. All Rights Reserved.</p>
-            </div>
-            <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
-                <ul class="list-inline mb-0">
-                    <li class="list-inline-item mr-3">
-                        <a href="#">
-                            <i class="fab fa-facebook fa-2x fa-fw"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item mr-3">
-                        <a href="#">
-                            <i class="fab fa-twitter-square fa-2x fa-fw"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#">
-                            <i class="fab fa-instagram fa-2x fa-fw"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</footer>
-
 <!-- Bootstrap core JavaScript -->
 <script src="src/vendor/jquery/jquery.min.js"></script>
 <script src="src/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
 
 <script src='src/js/web3.min.js'></script>
 
 <script src="https://cdn.jsdelivr.net/npm/truffle-contract@4.0.8/dist/truffle-contract.min.js"></script>
 
+<script src="src/js/lodash.min.js"></script>
+
+<script src="src/js/loan-request-utils.js"></script>
 <script src="src/js/personaldashboard.js"></script>
 
 </body>

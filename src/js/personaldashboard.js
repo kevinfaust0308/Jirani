@@ -1,3 +1,17 @@
+var app = new Vue({
+    el: '#loanDisplay',
+    data: {
+        yourLoans: [],
+        maxPerRow: 2,
+    },
+    computed: {
+        yourGroupedLoans: function () {
+            return _.chunk(this.yourLoans, this.maxPerRow);
+        }
+    }
+});
+
+
 App = {
 
     web3Provider: null,
@@ -30,133 +44,78 @@ App = {
             App.contracts.loanRequestPlatform.setProvider(App.web3Provider);
             console.log("initialized loan request platform contract");
 
-            return App.initUI();
+            return App.initLoanRequestsData();
         });
+    },
+
+    initLoanRequestsData: async () => {
+        const loanRequestPlatformInstance = await App.contracts.loanRequestPlatform.deployed();
+
+        // addresses of all your loan requests
+        const lras = await loanRequestPlatformInstance.getYourLoanRequestContracts();
+        console.log("You have " + lras.length + " loan requests");
+
+        // create a list of objects of the actual loan request data
+        let lrads = [];
+        for (const lra of lras) {
+            const lrd = await loanRequestPlatformInstance.extractLoanRequestContractData(lra);
+            lrads.push([lra, lrd]);
+        }
+        // parse into nice format
+        app.yourLoans = formatLoanRequestData(lrads);
+
+        return App.initUI();
     },
 
 
     initUI: async () => {
         console.log("App.initUI()");
 
-        const loanRequestPlatformInstance = await App.contracts.loanRequestPlatform.deployed();
-
         const acct = (await web3.eth.getAccounts())[0];
         $("#account").text(acct);
-
-        const yourLoanRequests = await loanRequestPlatformInstance.getYourLoanRequestContracts();
-        console.log("You have " + yourLoanRequests.length + " loan requests");
-
-        // number of rows and columns to display
-        const max_per_row = 2;
-        const fullrows = Math.floor(yourLoanRequests.length / max_per_row);
-        const excesscols = yourLoanRequests.length % max_per_row;
-
-        const loanDisplay = $("#loanDisplay");
-        let currRow = null;
-
-        for (let i = 0; i < yourLoanRequests.length; i++) {
-            const lr = yourLoanRequests[i];
-            const res = await loanRequestPlatformInstance.extractLoanRequestContractData(lr);
-
-            console.log(res);
-
-            // unpack and convert values to appropriate format
-            const amountReq = res[1].toString();
-            const amountAcc = res[2].toString();
-            const numLoaners = res[5].toNumber();
-
-            // unpack and rename to the following new variable names
-            // dont care about requestee since requestee is YOU
-            const {3: reason, 4: repaymentPlan} = res;
-
-            console.log("Request %s/%s because of %s. Backed by %d", amountAcc, amountReq, reason, numLoaners);
-
-            // update UI
-            // start of new row
-            if (i % max_per_row === 0) {
-
-                const temp = $('<div>', {
-                    id: "row-" + i,
-                    class: "card-group"
-                });
-                loanDisplay.append(temp);
-                currRow = temp;
-            }
-
-            // dynamic progress bar setup
-            const prog = parseFloat(amountAcc) / parseFloat(amountReq);
-
-
-            const newCard = `<div class="card">
-                <div class="card-body">
-                    <h4>Reason for loan</h4>
-                    <p class="reason">${reason}</p>
-                
-                    <h4>Repayment plan</h4>
-                    <p class="repaymentplan">${repaymentPlan}</p>
-                
-                    <h4>Progress</h4>
-                    <div class="progress">
-                        <div id="progressbar" class="progress-bar bg-success" role="progressbar" style="width: ${prog}%;"
-                             aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                             ${prog.toFixed(2) + '%'}
-                        </div>
-                    </div>
-                
-                    <small class="text-muted">${amountAcc} out of ${amountReq} WEI raised</small>
-                    
-                </div>
-                
-
-                <button id="repay-btn-${i}" type="button" class="btn btn-primary repay-btn" data-contract-num=${i} onClick="App.repay(${i})">Repay</button>
-  
-                
-            </div>`;
-            currRow.append(newCard);
-
-            // disable button if not fully paid back yet
-            if (amountAcc !== amountReq) {
-                $(`#repay-btn-${i}`).prop('disabled', true);
-            }
-
-            // completed a row
-            if (i % max_per_row === max_per_row - 1) {
-                loanDisplay.append("</div>");
-            }
-
-        }
-
-        if (excesscols !== 0) {
-            loanDisplay.append("</div>");
-        }
-
 
         return App.bindEvents();
     },
 
-
     bindEvents: () => {
         // on button click, grab which loan request was selected if there are multiple being displayed
-        // $('#repay').click(e => {
-        //     App.repay($(this).attr("data-contract-num"));
-        // })
+        $('.repay-btn').click(function () {
+
+            let contractNum = parseInt($(this).attr("data-contract-num"));
+            console.log("Contract number %d clicked", contractNum);
+
+            App.repay(contractNum);
+        })
 
     },
 
     repay: async (contractNum) => {
 
         const acct = (await web3.eth.getAccounts())[0];
-        console.log(acct);
 
         const loanRequestPlatformInstance = await App.contracts.loanRequestPlatform.deployed();
-        const yourLoanRequests = await loanRequestPlatformInstance.getYourLoanRequestContracts.call();
 
-        // repay the desired loan
+        // the loan we will be repaying (contract address stored in the object)
+        const repayLoanRequest = app.yourLoans[contractNum];
+        console.log(repayLoanRequest);
+
         try {
-            const gas = await loanRequestPlatformInstance.repayLoan.estimateGas(yourLoanRequests[contractNum], {from: acct});
-            let tx = await loanRequestPlatformInstance.repayLoan(yourLoanRequests[contractNum], {from: acct, gas: gas});
+
+            const gas = await loanRequestPlatformInstance.repayLoan.estimateGas(repayLoanRequest.lra, {
+                from: acct,
+                value: web3.utils.toWei(repayLoanRequest.amountReq) // amount to repay
+            });
+            let tx = await loanRequestPlatformInstance.repayLoan(repayLoanRequest.lra, {
+                from: acct,
+                gas: parseInt(gas * 1.2),
+                value: web3.utils.toWei(repayLoanRequest.amountReq)
+            });
+
             console.log(tx);
             console.log("loan has been paid off");
+
+            window.location.href = "personaldashboard.html"
+
         } catch (e) {
             console.log(e);
         }
@@ -164,6 +123,7 @@ App = {
     }
 
 };
+
 
 $(window).on("load", function () {
 
