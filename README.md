@@ -14,3 +14,17 @@ Tools: Metamask, Ganache, Truffle
 Frameworks: Bootstrap, Vue
 
 Libraries: Jquery, Web3.js
+
+
+NOTE: 1. SMS is not setup 2. uses the first account of your blockchain network
+
+
+![Alt text](screenshots/home.png?raw=true "Home")
+
+![Alt text](screenshots/dashboard.png?raw=true "Dashboard")
+
+![Alt text](screenshots/view_pay.png?raw=true "View (Pay)")
+
+![Alt text](screenshots/view.png?raw=true "View")
+
+![Alt text](screenshots/request.png?raw=true "Request")
