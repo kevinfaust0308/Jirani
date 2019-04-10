@@ -108,7 +108,7 @@ App = {
 
         const loanRequestPlatformInstance = await App.contracts.loanRequestPlatform.deployed();
 
-        let displayedLoanAddr = app.displayedLoan.addr;
+        let displayedLoanAddr = app.displayedLoan.lra;
         let payAmt = app.displayedLoan.willPay;
         console.log("Paying %s ETH to %s", payAmt, displayedLoanAddr);
 
